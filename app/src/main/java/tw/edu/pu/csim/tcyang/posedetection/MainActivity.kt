@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
             override fun onClick(p0: View?) {
                 poseDetector.process(image)
                     .addOnSuccessListener { pose ->
+                        // Task completed successfully
                         val dstBitmap = Bitmap.createBitmap(
                             bitmap.width, bitmap.height,
                             Bitmap.Config.ARGB_8888
@@ -59,12 +60,18 @@ class MainActivity : AppCompatActivity() {
                         paint.style = Paint.Style.STROKE
                         paint.strokeWidth = 50f
 
-                        // Task completed successfully
                         val leftShoulder = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER)
 
                         var xPos = leftShoulder.position.x
                         var yPos = leftShoulder.position.y
-                        canvas.drawCircle(xPos, yPos, 20f, paint)
+                        //canvas.drawCircle(xPos, yPos, 20f, paint)
+
+                        val allPoseLandmarks = pose.getAllPoseLandmarks()
+                        for (item in allPoseLandmarks) {
+                            xPos = item.position.x
+                            yPos = item.position.y
+                            canvas.drawCircle(xPos, yPos, 20f, paint)
+                        }
 
                         img.setImageBitmap(dstBitmap)
 
