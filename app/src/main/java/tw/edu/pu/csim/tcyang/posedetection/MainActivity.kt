@@ -4,6 +4,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.pose.PoseDetection
 import com.google.mlkit.vision.pose.accurate.AccuratePoseDetectorOptions
 import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions
@@ -33,6 +36,26 @@ class MainActivity : AppCompatActivity() {
             .setDetectorMode(AccuratePoseDetectorOptions.SINGLE_IMAGE_MODE)
             .build()
         val poseDetector = PoseDetection.getClient(options)
+
+        //Prepare the input image
+        val image = InputImage.fromBitmap(bitmap, 0)
+
+        btn.setOnClickListener(object:View.OnClickListener{
+            override fun onClick(p0: View?) {
+                poseDetector.process(image)
+                    .addOnSuccessListener { pose ->
+                        // Task completed successfully
+                        Toast.makeText(baseContext, "偵測成功", Toast.LENGTH_LONG).show()
+                    }
+                    .addOnFailureListener { e ->
+                        // Task failed with an exception
+                        Toast.makeText(baseContext, "抱歉，發生錯誤！",
+                            Toast.LENGTH_SHORT).show()
+                    }
+            }
+        })
+
+
 
     }
 }
