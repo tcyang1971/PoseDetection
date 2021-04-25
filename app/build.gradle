@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
 }
 
 android {
@@ -42,4 +43,9 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    // If you want to use the base sdk
+    implementation 'com.google.mlkit:pose-detection:17.0.1-beta3'
+    // If you want to use the accurate sdk
+    implementation 'com.google.mlkit:pose-detection-accurate:17.0.1-beta3'
 }
