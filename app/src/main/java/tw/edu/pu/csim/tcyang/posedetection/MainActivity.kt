@@ -1,13 +1,13 @@
 package tw.edu.pu.csim.tcyang.posedetection
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.graphics.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.pose.PoseDetection
+import com.google.mlkit.vision.pose.PoseLandmark
 import com.google.mlkit.vision.pose.accurate.AccuratePoseDetectorOptions
 import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions
 import kotlinx.android.synthetic.main.activity_main.*
@@ -44,7 +44,30 @@ class MainActivity : AppCompatActivity() {
             override fun onClick(p0: View?) {
                 poseDetector.process(image)
                     .addOnSuccessListener { pose ->
+                        val dstBitmap = Bitmap.createBitmap(
+                            bitmap.width, bitmap.height,
+                            Bitmap.Config.ARGB_8888
+                        )
+                        var canvas = Canvas(dstBitmap)
+
+                        //繪製原始圖片
+                        canvas.drawBitmap(bitmap, 0f, 0f, null)
+
+                        //設定畫筆
+                        val paint = Paint()
+                        paint.color = Color.RED
+                        paint.style = Paint.Style.STROKE
+                        paint.strokeWidth = 50f
+
                         // Task completed successfully
+                        val leftShoulder = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER)
+
+                        var xPos = leftShoulder.position.x
+                        var yPos = leftShoulder.position.y
+                        canvas.drawCircle(xPos, yPos, 20f, paint)
+
+                        img.setImageBitmap(dstBitmap)
+
                         Toast.makeText(baseContext, "偵測成功", Toast.LENGTH_LONG).show()
                     }
                     .addOnFailureListener { e ->
