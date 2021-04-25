@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //將drawable的圖片轉換成Bitmap
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.miss)
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mo)
         img.setImageBitmap(bitmap)
 
         /*
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                         val paint = Paint()
                         paint.color = Color.RED
                         paint.style = Paint.Style.STROKE
-                        paint.strokeWidth = 50f
+                        paint.strokeWidth = 10f
 
                         val leftShoulder = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER)
 
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                         for (item in allPoseLandmarks) {
                             xPos = item.position.x
                             yPos = item.position.y
-                            canvas.drawCircle(xPos, yPos, 20f, paint)
+                            canvas.drawCircle(xPos, yPos, 10f, paint)
                         }
 
                         img.setImageBitmap(dstBitmap)
